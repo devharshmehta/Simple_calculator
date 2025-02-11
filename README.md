@@ -98,7 +98,7 @@ The output will be:
 ```bash
 11.5 or 23/2
 ```
-Factorial can be calculated using `!` sign after a number. For example `5!`. You could add this your overall expression without brackets like `5!*2`.
+Factorial can be calculated using `!` sign after a number. For example `5!`. You could add this your overall expression with or without brackets like `5!*2` or `(5!)2` etc.
 ## Disclaimer
 This project is intended solely for learning the basics of programming and understanding how to translate your thoughts into computer code. **Important Limitations:**
 
