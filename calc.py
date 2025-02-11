@@ -92,7 +92,7 @@ for i in inp:
 if tok:
     req_result.append(tok)
 
-# Converting '%' to x/100 and elclosing it with brackets, x being left of '%'
+# Converting '%' to x/100 and elclosing it with brackets, x being left and right of '%'
 i = 0
 while i < len(req_result):
     if req_result[i] == '%':
@@ -159,7 +159,8 @@ while len(arr_1) > 1:
 final_compute = float(arr_1[0])
 fraction = decimal_to_fraction(final_compute)
 
-if final_compute.is_integer():
-    print(f'{final_compute:g}')
+if final_compute.is_integer() or abs(round(final_compute) - final_compute) < 0.001:  
+    rounded_final_compute = round(final_compute)
+    print(rounded_final_compute)
 else:
     print(f'{final_compute} or {fraction}')
