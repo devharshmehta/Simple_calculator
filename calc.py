@@ -92,7 +92,7 @@ for i in inp:
 if tok:
     req_result.append(tok)
 
-# Converting '%' to x/100 and elclosing it with brackets, x being left and right of '%'
+# Converting '%' to x/100 and elclosing it with brackets, x being left of '%'
 i = 0
 while i < len(req_result):
     if req_result[i] == '%':
