@@ -43,7 +43,6 @@ def process_operations(arr):
         for op in arr[:]:
             if op == '!':
                 calc(arr, op)
-    
     # Process multiplication and division second.
     while '/' in arr or '*' in arr:
         for op in arr[:]:
@@ -55,12 +54,10 @@ def process_operations(arr):
             if op in ['+', '-']:
                 calc(arr, op)
 
-
 def decimal_to_fraction(decimal):
     # Approximate decimals to a fraction    
     minDiff = 0.0001
     q = 1
-
     while True: 
         p = round(q * decimal)
         if abs((p / q) - decimal) <= minDiff:
@@ -103,36 +100,31 @@ while i < len(req_result):
             req_result.insert(i-1, '(')
         else:
             req_result.pop(i)
-            req_result[i:i] = ['/', '100']
-            
+            req_result[i:i] = ['/', '100']    
     i += 1
 
 # Insert '*' before '(' if the preceding token is not an operator
 i = 0
 while i < len(req_result):
     if req_result[i] == '(' and i > 0 and req_result[i-1] not in oper:
-        req_result.insert(i, '*')
-        
+        req_result.insert(i, '*')  
     i += 1
 
 # Insert '*' after ')' if the following token is not an operator
 i = 0
 while i < len(req_result):
     if req_result[i] == ')' and i < len(req_result)-1 and req_result[i+1] not in oper:
-        req_result.insert(i+1, '*')
-        
+        req_result.insert(i+1, '*')   
     i += 1
 
 # Insert '*' between ')', '(' when there is no operator in between
 i = 0
 while i < len(req_result):
     if req_result[i] ==')' and i < len(req_result)-1 and req_result[i+1] == '(':
-        req_result.insert(i+1, '*')
-        
+        req_result.insert(i+1, '*')  
     i += 1
 
 arr_1 = req_result
-
 # Main operation starts here of looking, processing and replacing
 while len(arr_1) > 1:
     if '(' in arr_1 and ')' in arr_1:
