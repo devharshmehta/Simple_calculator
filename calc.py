@@ -96,10 +96,14 @@ if tok:
 i = 0
 while i < len(req_result):
     if req_result[i] == '%':
-        req_result.pop(i)
-        req_result[i:i] = ['/', '100']
-        req_result.insert(i+2, ')')
-        req_result.insert(i-1, '(')
+        if req_result[i-1] != ')':
+            req_result.pop(i)
+            req_result[i:i] = ['/', '100']
+            req_result.insert(i+2, ')')
+            req_result.insert(i-1, '(')
+        else:
+            req_result.pop(i)
+            req_result[i:i] = ['/', '100']
             
     i += 1
 
