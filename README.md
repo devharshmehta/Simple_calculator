@@ -1,6 +1,6 @@
 # Simple Expression Calculator
 
-A custom Python calculator that evaluates arithmetic expressions with support for nested parentheses, negative numbers, and implicit multiplication. The calculator also approximates the result as both a decimal and a fraction.
+A custom Python calculator that evaluates arithmetic expressions with support for nested parentheses, negative numbers, and implicit multiplication and factorial. The calculator also approximates the result as both a decimal and a fraction.
 
 ## Overview
 
