@@ -69,7 +69,7 @@ def decimal_to_fraction(decimal):
 
 # Taking input as string and processing it into an array with seperated operators and numbers
 inp = input('enter: ')
-oper = ['+', '-', '/', '*', '(', ')', '!']
+oper = ['+', '-', '/', '*', '(', ')', '!', '%']
 req_result = []
 tok = ''
 
@@ -91,6 +91,17 @@ for i in inp:
 # If there is number at the last after an operator
 if tok:
     req_result.append(tok)
+
+# Converting '%' to x/100 and elclosing it with brackets, x being left and right of '%'
+i = 0
+while i < len(req_result):
+    if req_result[i] == '%':
+        req_result.pop(i)
+        req_result[i:i] = ['/', '100']
+        req_result.insert(i+2, ')')
+        req_result.insert(i-1, '(')
+            
+    i += 1
 
 # Insert '*' before '(' if the preceding token is not an operator
 i = 0
@@ -115,7 +126,7 @@ while i < len(req_result):
         req_result.insert(i+1, '*')
         
     i += 1
-    
+
 arr_1 = req_result
 
 # Main operation starts here of looking, processing and replacing
