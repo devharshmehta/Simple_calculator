@@ -1,27 +1,50 @@
+def factorial(a):
+    # To calculate factorial of number
+    fact = 1
+    if a == 0:
+        return fact
+    for i in range(1, int(a + 1)):
+        fact *= i
+    return fact
+
 def calc(expr, operator):
     # Replace the first occurrence of operator and its two operands with the result.
     op_index = expr.index(operator)
-    a = float(expr[op_index - 1])
-    b = float(expr[op_index + 1])
-    if operator == '/':
-        if b == 0:
-            print('cannot divide by zero')
-            exit()
-        result = a / b
-    elif operator == '*':
-        result = a * b
-    elif operator == '+':
-        result = a + b
-    elif operator == '-':
-        result = a - b
-    # Remove the two operands and the operator, then insert the result.
-    expr.pop(op_index - 1)
-    expr.pop(op_index - 1)
-    expr.pop(op_index - 1)
-    expr.insert(op_index - 1, str(result))
+    if operator != '!':
+        a = float(expr[op_index - 1])
+        b = float(expr[op_index + 1])
+        if operator == '/':
+            if b == 0:
+                print('cannot divide by zero')
+                exit()
+            result = a / b
+        elif operator == '*':
+            result = a * b
+        elif operator == '+':
+            result = a + b
+        elif operator == '-':
+            result = a - b
+        # Remove the two operands and the operator, then insert the result.
+        expr.pop(op_index - 1)
+        expr.pop(op_index - 1)
+        expr.pop(op_index - 1)
+        expr.insert(op_index - 1, str(result))
+    else:
+        a = float(expr[op_index - 1])
+        result = factorial(a)
+        
+        expr.pop(op_index - 1)
+        expr.pop(op_index - 1)
+        expr.insert(op_index - 1, str(result))
 
 def process_operations(arr):
-    # Process multiplication and division first.
+    # Process factorial first
+    while '!' in arr:
+        for op in arr[:]:
+            if op == '!':
+                calc(arr, op)
+    
+    # Process multiplication and division second.
     while '/' in arr or '*' in arr:
         for op in arr[:]:
             if op in ['/', '*']:
@@ -46,7 +69,7 @@ def decimal_to_fraction(decimal):
 
 # Taking input as string and processing it into an array with seperated operators and numbers
 inp = input('enter: ')
-oper = ['+', '-', '/', '*', '(', ')']
+oper = ['+', '-', '/', '*', '(', ')', '!']
 req_result = []
 tok = ''
 
@@ -92,7 +115,7 @@ while i < len(req_result):
         req_result.insert(i+1, '*')
         
     i += 1
-
+    
 arr_1 = req_result
 
 # Main operation starts here of looking, processing and replacing
@@ -124,4 +147,8 @@ while len(arr_1) > 1:
 # Getting the final result
 final_compute = float(arr_1[0])
 fraction = decimal_to_fraction(final_compute)
-print(f'{final_compute} or {fraction}')
+
+if final_compute.is_integer():
+    print(f'{final_compute:g}')
+else:
+    print(f'{final_compute} or {fraction}')
