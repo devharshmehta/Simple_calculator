@@ -1,5 +1,11 @@
+def sqrt(a):
+    sqr = a**(1/2)
+    if abs(sqr - round(sqr)) < 1e-6:  
+        return round(sqr)
+    else:
+        return sqr
+
 def factorial(a):
-    # To calculate factorial of number
     fact = 1
     if a == 0:
         return fact
@@ -10,7 +16,7 @@ def factorial(a):
 def calc(expr, operator):
     # Replace the first occurrence of operator and its two operands with the result.
     op_index = expr.index(operator)
-    if operator != '!':
+    if operator not in ['!', '√']:
         a = float(expr[op_index - 1])
         b = float(expr[op_index + 1])
         if operator == '/':
@@ -24,26 +30,43 @@ def calc(expr, operator):
             result = a + b
         elif operator == '-':
             result = a - b
+        elif operator == '^':
+            result = a**b
         # Remove the two operands and the operator, then insert the result.
         expr.pop(op_index - 1)
         expr.pop(op_index - 1)
         expr.pop(op_index - 1)
         expr.insert(op_index - 1, str(result))
-    else:
+    elif operator == '!':
         a = float(expr[op_index - 1])
         result = factorial(a)
-        
         expr.pop(op_index - 1)
         expr.pop(op_index - 1)
         expr.insert(op_index - 1, str(result))
+    elif operator == '√':
+        a = float(expr[op_index + 1])
+        result = sqrt(a)
+        expr.pop(op_index + 1)
+        expr.pop(op_index)
+        expr.insert(op_index, str(result))
 
 def process_operations(arr):
-    # Process factorial first
+    #Process a square root
+    while '√' in arr:
+        for op in arr:
+            if op == '√':
+                calc(arr, op)
+    # Process factorial 
     while '!' in arr:
         for op in arr[:]:
             if op == '!':
                 calc(arr, op)
-    # Process multiplication and division second.
+    # Process exponents           
+    while '^' in arr:
+        for op in arr[:]:
+            if op == '^':
+                calc(arr, op)
+    # Process multiplication and division.
     while '/' in arr or '*' in arr:
         for op in arr[:]:
             if op in ['/', '*']:
@@ -55,7 +78,6 @@ def process_operations(arr):
                 calc(arr, op)
 
 def decimal_to_fraction(decimal):
-    # Approximate decimals to a fraction    
     minDiff = 0.0001
     q = 1
     while True: 
@@ -66,7 +88,7 @@ def decimal_to_fraction(decimal):
 
 # Taking input as string and processing it into an array with seperated operators and numbers
 inp = input('enter: ')
-oper = ['+', '-', '/', '*', '(', ')', '!', '%']
+oper = ['+', '-', '/', '*', '(', ')', '!', '%', '^', '√', 'π']
 req_result = []
 tok = ''
 
@@ -102,7 +124,14 @@ while i < len(req_result):
             req_result.pop(i)
             req_result[i:i] = ['/', '100']    
     i += 1
-
+# Support for pi
+i = 0
+while i < len(req_result):
+    if req_result[i] == 'π':
+        req_result[i] = '3.142857142857143'
+        if req_result[i-2] != ')':
+            req_result.insert(i, '*')
+    i += 1
 # Insert '*' before '(' if the preceding token is not an operator
 i = 0
 while i < len(req_result):
@@ -113,7 +142,7 @@ while i < len(req_result):
 # Insert '*' after ')' if the following token is not an operator
 i = 0
 while i < len(req_result):
-    if req_result[i] == ')' and i < len(req_result)-1 and req_result[i+1] not in oper:
+    if req_result[i] == ')' and i < len(req_result)-1 and req_result[i+1] not in ['+', '-', '/', '*', '(', ')', '!', '%', '^', '√']:
         req_result.insert(i+1, '*')   
     i += 1
 
@@ -123,7 +152,7 @@ while i < len(req_result):
     if req_result[i] ==')' and i < len(req_result)-1 and req_result[i+1] == '(':
         req_result.insert(i+1, '*')  
     i += 1
-
+    
 arr_1 = req_result
 # Main operation starts here of looking, processing and replacing
 while len(arr_1) > 1:
